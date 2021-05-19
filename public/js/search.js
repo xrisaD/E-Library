@@ -1,4 +1,3 @@
-var dao = new DAOBooks();
 
 const whiteHeart = '\u2661';
 window.addEventListener('load', (event) => {
@@ -19,12 +18,13 @@ function displaySearchResults() {
     var input = document.getElementById("search").value;
    
     if (input!=""){
-        var books = SearchStub.search(input);
+        var books = SearchPenguin.search(input);
         console.log(books);
 
         outer_article.innerHTML += template(books);
 
     }
+    // https://reststop.randomhouse.com/resources/works?search=Grisham
     // // get input
     // var input = document.getElementById("search").value;
     // if (input!=""){
