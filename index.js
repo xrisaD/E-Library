@@ -6,7 +6,6 @@ const port = 8080
 
 app.listen(port)
 
-
 /* 
     Serve static content from directory "public",
     it will be accessible under path /static, 
