@@ -101,7 +101,7 @@ a:hover {
     padding-top: 3%;
 }
 
-.main_search p{
+.main_search > p{
     display: inline;
     background-color: #810000;
     padding: 10px;
@@ -147,4 +147,8 @@ a:hover {
 
 .search_button, .list_button{
     float: right;
+    font-size: 25px;
+}
+.search_button:hover {
+    background-color: #810000;
 }
