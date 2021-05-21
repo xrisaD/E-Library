@@ -1,61 +1,3 @@
-// database
-
-class BooksDAO {
-    constructor() {
-        this.books = [];
-    }  
-}
-
-class BooksDAOImpl extends BooksDAO {
-    constructor() {
-        super();
-        //create 3 books
-        for (var i = 0; i < 3; i++) {
-            this.books[i] = { title: "title".concat(i), id: "i"+i };
-        }
-        this.i++;
-    }
-    
-    add(book){
-        this.books.push(book);
-        this.i ++;
-    }
-    remove(id){
-        for (var i = 0; i < this.books.length; i++) {
-            if(this.books[i].id == id){
-                this.books.splice(i, 1);
-            }
-        } 
-    }
-    exists(id){
-        for (var i = 0; i < this.books.length; i++) {
-            if(this.books[i].id == id){
-                return true;
-            }
-        }
-        return false;
-    }
-}
-
-class BooksDAODB extends BooksDAO {
-    constructor() {
-        super();
-        //create 3 books
-        for (var i = 0; i < 3; i++) {
-            this.books[i] = { title: "title".concat(i), pages: i };
-        }
-        this.i = 4;
-    }
-    
-    add(book){
-        this.books[this.i] = book;
-        this.i ++;
-    }
-}
-
-var dao = new BooksDAOImpl();
-
-
 // handlebars
 Handlebars.registerHelper('ifState', function(v1, v2, options) {
     if(v1 === v2) {
@@ -115,3 +57,4 @@ editString = "<h3>Edit book</h3> \
                     <p>There are no books. Please type something different</p> \
                 {{/if}}";
 templates.list = Handlebars.compile(listString);
+

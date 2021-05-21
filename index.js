@@ -1,10 +1,7 @@
-console.log("xx");
-const express = require('express')
-const path = require('path')
+const express = require('express');
+const db = require('./DAOImpl');
+const path = require('path');
 const app = express()
-const port = 8080
-
-app.listen(port)
 
 /* 
     Serve static content from directory "public",
@@ -32,9 +29,65 @@ app.get('/', function(req, res){
     })
 })
 
+
 // serve index.html as content root
-app.get('/search/', function(req, res){
-    let name =  req.query.name;
-    let body = req.body;
-    //req.status(202).send('')
+app.get('/books/list', function(req, res){
+    let books = db.getAllBooks();
+    console.log(books);
+    res.type('application/json');
+    res.status(200);
+    res.send(JSON.stringify(books));
+
 })
+
+
+app.post('/books', function(req, res){
+    console.log("POST"+req.body);
+    // create a new book
+    let obj = req.body;
+    let id = obj.id;
+    if (id === undefined){
+        res.type('application/json');
+        res.status(400);
+        res.send('{"message": "id parameter is missing"}');
+    }else if(db.bookExists(id)){
+        res.type('application/json');
+        res.status(404);
+        res.send('{"message": "This book exists"}');
+    }else{
+        db.addBook(obj);
+        res.type('application/json');
+        res.status(201);
+        res.send('{"message": "Book posted successfully"}');
+    }
+    
+})
+
+app.put('/books/:id', function(req, res){
+    
+})
+
+app.delete('/books/:id', function(req, res){
+    // delete a book with a specific id
+    // get book's id
+    let id = req.params.id;
+    if (id === undefined){
+        res.type('application/json');
+        res.status(400);
+        res.send('{"message": "id parameter is missing"}');
+    }else if (!db.bookExists(id)){
+        res.type('application/json');
+        res.status(404);
+        res.send('{"message": "Not found"}');
+    }else{
+        // book exists so delete it
+        db.deleteBook(id);
+        res.type('application/json');
+        res.status(200);
+        res.send('{"message": "Book deleted successfully"}');
+    }
+
+})
+
+const port = 8080
+app.listen(port)
