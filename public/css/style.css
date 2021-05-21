@@ -97,30 +97,30 @@ a:hover {
     padding-top: 10%;
 }
 
-.main_search{
+.main_search, .main_list{
     padding-top: 3%;
 }
 
-.main_search > p{
+.main_search > p, .main_list > p{
     display: inline;
     background-color: #810000;
     padding: 10px;
     border-radius: 4px;
 }
 
-#search_form {
+#search_form, #list_form {
     display: inline-block;
     margin:100px;
 }
 
-#search{
+#search, #list{
     border: 2px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
     padding: 12px;
 }
 
-#search_button{
+#search_button, #list_button{
     border: 2px solid #ccc;
     font-size: 16px;
     padding: 12px;
@@ -149,6 +149,6 @@ a:hover {
     float: right;
     font-size: 25px;
 }
-.search_button:hover {
+.search_button:hover, .list_button:hover {
     background-color: #810000;
 }

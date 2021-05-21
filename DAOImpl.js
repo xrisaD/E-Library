@@ -40,10 +40,29 @@ function exists(id){
     return false;
 }
 
+function get(id){
+    console.log("Get book");
+    for (var i = 0; i < books["books"].length; i++) {
+        if(books["books"][i].id == id){
+            return books["books"][i];
+        }
+    }
+    return null;
+}
 
+function update(id, newBook){
+    console.log("Update book");
+    for (var i = 0; i < books["books"].length; i++) {
+        if(books["books"][i].id == id){
+            books["books"][i] = newBook;
+        }
+    }
+}
 module.exports = {
     addBook: add,
     deleteBook: remove,
     getAllBooks: getAllBooks,
-    bookExists :exists
+    bookExists :exists,
+    getBook: get,
+    updateBook: update
 }

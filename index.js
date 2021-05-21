@@ -30,7 +30,6 @@ app.get('/', function(req, res){
 })
 
 
-// serve index.html as content root
 app.get('/books/list', function(req, res){
     let books = db.getAllBooks();
     console.log(books);
@@ -40,6 +39,26 @@ app.get('/books/list', function(req, res){
 
 })
 
+app.get('/books', function(req, res){
+    let id = req.query.id;
+    if(id === undefined){
+        res.type('application/json');
+        res.status(400);
+        res.send('{"message": "id parameter is missing"}');
+    }else{
+        let book = db.getBook(id);
+        if(book !== null){
+            res.type('application/json');
+            res.status(200);
+            res.send(JSON.stringify(book));
+        }else{
+            res.type('application/json');
+            res.status(404);
+            res.send('{"message": "Something went wrong!"}');
+        }
+    }
+
+})
 
 app.post('/books', function(req, res){
     console.log("POST"+req.body);
@@ -64,7 +83,27 @@ app.post('/books', function(req, res){
 })
 
 app.put('/books/:id', function(req, res){
-    
+    console.log("PUTTT");
+    // update a book with a specific id
+    // get book's id
+    let id = req.params.id;
+    let newBook = req.body;
+    if (id === undefined || newBook === undefined){
+        res.type('application/json');
+        res.status(400);
+        res.send('{"message": "wrong put"}');
+    }else if (!db.bookExists(id)){
+        res.type('application/json');
+        res.status(404);
+        res.send('{"message": "Not found"}');
+    }else{
+        // book exists so update it
+        console.log(newBook);
+        db.updateBook(id, newBook);
+        res.type('application/json');
+        res.status(200);
+        res.send('{"message": "Book deleted successfully"}');
+    }
 })
 
 app.delete('/books/:id', function(req, res){

@@ -58,3 +58,14 @@ editString = "<h3>Edit book</h3> \
                 {{/if}}";
 templates.list = Handlebars.compile(listString);
 
+editString = "<form> \
+            <label for='title'>Title:</label> \
+            <input type='text' id='title' value='{{title}}'> \
+            <label for='author'>Author:</label> \
+            <input type='text' id='author' value='{{author}}'> \
+            <label for='description'>Description:</label> \
+            <input  type='text' id='description' value='{{description}}'> \
+            <button id='save' onclick=update()>Save</button> \
+            <button id='delete' onclick=remove()>Delete</button> \
+            </form>";    
+templates.edit = Handlebars.compile(editString);
