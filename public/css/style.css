@@ -152,3 +152,7 @@ a:hover {
 .search_button:hover, .list_button:hover {
     background-color: #810000;
 }
+
+main > h1 {
+    color: #810000;
+}

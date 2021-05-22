@@ -1,15 +1,32 @@
 window.addEventListener('load', (event) => {
-    displayList(); // display list with all books
+    getMyList(); // get my list
+    // update the list while the user is typing
     document.getElementById('list').onkeyup = function(){
-        
+        setInterval(function(){
+            searchToMyList();
+        }, 500);
     }
 
 });
 
-var outer_article;
-var myList;
+function searchToMyList(){
+    // get value
+    var input = document.getElementById("list").value;
+    let tmpList = {};
+    let books = [];
+    for (let book of myList["books"]){
+        if(book.title.toLowerCase().includes(input.toLowerCase()) || book.description.toLowerCase().includes(input.toLowerCase())){
+            books.push(book);
+        }
+    }
+    tmpList["books"] = books;
+    outer_article.innerHTML = templates.list(tmpList);
+}
 
-function displayList() {
+var outer_article;
+var myList = {};
+
+function getMyList() {
     // delete previous results
     outer_article = document.getElementById("list_results");
     outer_article.classList.add("list_outer");
@@ -32,10 +49,10 @@ function getAllBooks(outer_article){
 
     fetch(url, init)
     .then(response => response.json())
-    .then(data =>{      
-          if(data.books.length>0){ 
-            myList = data;
-            outer_article.innerHTML = templates.list(data);
+    .then(data =>{    
+          if(data.length>0){ 
+            myList["books"] = data;
+            outer_article.innerHTML = templates.list(myList);
           }else{
             outer_article.innerHTML = "<p> Your list is empty </p>";
           }
@@ -48,3 +65,4 @@ function edit(index){
     sessionStorage.setItem('id', myList.books[index].id);
     window.location.href = "http://localhost:8080/eLib/edit.html";
 }
+

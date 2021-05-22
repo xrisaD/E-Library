@@ -19,8 +19,7 @@ function getBook(id){
 
     fetch(url, init)
     .then(response => response.json())
-    .then(data =>{   
-        console.log(data);
+    .then(data =>{ 
         myForm.innerHTML = templates.edit(data); 
     });
 }

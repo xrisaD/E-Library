@@ -36,8 +36,10 @@ function addToMyList(index) {
   // deep copy and delete the status
   // because status is used only for front end purposes
   // and it is independent of the backend
+  // also add an empty description
   let book = JSON.parse(JSON.stringify(tmpBook));
   delete book["state"];
+  book["description"] = "-";
 
   let init = {
       method: "POST",

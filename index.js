@@ -1,6 +1,7 @@
 const express = require('express');
-const db = require('./DAOImpl');
+const db = require('./DAOmongo');
 const path = require('path');
+const { exists } = require('fs');
 const app = express()
 
 /* 
@@ -31,12 +32,18 @@ app.get('/', function(req, res){
 
 
 app.get('/books/list', function(req, res){
-    let books = db.getAllBooks();
-    console.log(books);
-    res.type('application/json');
-    res.status(200);
-    res.send(JSON.stringify(books));
-
+    db.getAllBooks()
+    .then(books=>{
+        res.type('application/json');
+        res.status(200);
+        res.send(JSON.stringify(books));
+    })
+    .catch(error =>{
+        console.log(error)
+        res.type('application/json');
+        res.status(404);
+        res.send('{"message": "Something went wrong!"}');
+    });
 })
 
 app.get('/books', function(req, res){
@@ -46,22 +53,29 @@ app.get('/books', function(req, res){
         res.status(400);
         res.send('{"message": "id parameter is missing"}');
     }else{
-        let book = db.getBook(id);
-        if(book !== null){
-            res.type('application/json');
-            res.status(200);
-            res.send(JSON.stringify(book));
-        }else{
+        db.getBook(id)
+        .then(book=>{
+            if(book.length === 1 ){
+                res.type('application/json');
+                res.status(200);
+                res.send(JSON.stringify(book.pop()));
+            }else{ 
+                res.type('application/json');
+                res.status(404);
+                res.send('{"message": "Something went wrong!"}');
+            }
+        })
+        .catch(error =>{
+            console.log(error);
             res.type('application/json');
             res.status(404);
             res.send('{"message": "Something went wrong!"}');
-        }
+        });
     }
 
 })
 
 app.post('/books', function(req, res){
-    console.log("POST"+req.body);
     // create a new book
     let obj = req.body;
     let id = obj.id;
@@ -69,21 +83,30 @@ app.post('/books', function(req, res){
         res.type('application/json');
         res.status(400);
         res.send('{"message": "id parameter is missing"}');
-    }else if(db.bookExists(id)){
-        res.type('application/json');
-        res.status(404);
-        res.send('{"message": "This book exists"}');
     }else{
-        db.addBook(obj);
-        res.type('application/json');
-        res.status(201);
-        res.send('{"message": "Book posted successfully"}');
+        db.bookExists(id)
+        .then( exists =>{
+            if(exists){
+                res.type('application/json');
+                res.status(404);
+                res.send('{"message": "This book exists"}');
+            }else{
+                db.addBook(obj);
+                res.type('application/json');
+                res.status(201);
+                res.send('{"message": "Book posted successfully"}');
+            }})
+        .catch(error =>{
+            console.log(error)
+            res.type('application/json');
+            res.status(404);
+            res.send('{"message": "Something went wrong!"}');
+        });
     }
     
 })
 
 app.put('/books/:id', function(req, res){
-    console.log("PUTTT");
     // update a book with a specific id
     // get book's id
     let id = req.params.id;
@@ -92,17 +115,26 @@ app.put('/books/:id', function(req, res){
         res.type('application/json');
         res.status(400);
         res.send('{"message": "wrong put"}');
-    }else if (!db.bookExists(id)){
-        res.type('application/json');
-        res.status(404);
-        res.send('{"message": "Not found"}');
     }else{
-        // book exists so update it
-        console.log(newBook);
-        db.updateBook(id, newBook);
-        res.type('application/json');
-        res.status(200);
-        res.send('{"message": "Book deleted successfully"}');
+        db.bookExists(id)
+        .then( exists =>{
+            if(!exists){
+                res.type('application/json');
+                res.status(404);
+                res.send('{"message": "Not found"}');
+            }else{
+                // book exists so update it
+                db.updateBook(id, newBook);
+                res.type('application/json');
+                res.status(200);
+                res.send('{"message": "Book deleted successfully"}');
+            }})
+        .catch(error =>{
+            console.log(error);
+            res.type('application/json');
+            res.status(404);
+            res.send('{"message": "Something went wrong!"}');
+        });     
     }
 })
 
@@ -114,18 +146,27 @@ app.delete('/books/:id', function(req, res){
         res.type('application/json');
         res.status(400);
         res.send('{"message": "id parameter is missing"}');
-    }else if (!db.bookExists(id)){
-        res.type('application/json');
-        res.status(404);
-        res.send('{"message": "Not found"}');
     }else{
-        // book exists so delete it
-        db.deleteBook(id);
-        res.type('application/json');
-        res.status(200);
-        res.send('{"message": "Book deleted successfully"}');
+        db.bookExists(id)
+        .then(exists=>{
+            if(!exists){
+                res.type('application/json');
+                res.status(404);
+                res.send('{"message": "Not found"}');
+            }else{
+                // book exists so delete it
+                db.deleteBook(id);
+                res.type('application/json');
+                res.status(200);
+                res.send('{"message": "Book deleted successfully"}');
+            }})
+        .catch(error =>{
+            console.log(error)
+            res.type('application/json');
+            res.status(404);
+            res.send('{"message": "Something went wrong!"}');
+        });
     }
-
 })
 
 const port = 8080

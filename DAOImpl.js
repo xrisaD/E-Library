@@ -1,63 +1,61 @@
 // DAO
-var books = {};
+var books = [];
 
-var arrayWithBooks = [];
 for (var i = 0; i < 3; i++) {
-    arrayWithBooks.push({ title: "title"+i, id: "i"+i, author:"author"+i});
+    books.push({ title: "title"+i, id: "i"+i, author:"author"+i});
 }
-books["books"] = arrayWithBooks;
 
 i++;
     
-    
-function getAllBooks(){
-    console.log("Get all books" + books);
+async function getAllBooks(){
     return books;
 }
 
-function add(book){
+async function add(book){
     console.log("Book added to db");
-    books["books"].push(book);
+    books.push(book);
     i ++;
 }
 
-function remove(id){
+async function remove(id){
     console.log("Book deleted from db");
-    for (var i = 0; i < books["books"].length; i++) {
-        if(books["books"][i].id == id){
-            books["books"].splice(i, 1);
+    for (var i = 0; i < books.length; i++) {
+        if(books[i].id == id){
+            books.splice(i, 1);
         }
     } 
 }
 
-function exists(id){
+async function exists(id){
     console.log("Book exists?");
-    for (var i = 0; i < books["books"].length; i++) {
-        if(books["books"][i].id == id){
+    for (var i = 0; i < books.length; i++) {
+        if(books[i].id == id){
             return true;
         }
     }
     return false;
 }
 
-function get(id){
+async function get(id){
     console.log("Get book");
-    for (var i = 0; i < books["books"].length; i++) {
-        if(books["books"][i].id == id){
-            return books["books"][i];
+    let book = [];
+    for (var i = 0; i < books.length; i++) {
+        if(books[i].id == id){
+            book.push(books[i]);
         }
     }
-    return null;
+    return book;
 }
 
-function update(id, newBook){
+async function update(id, newBook){
     console.log("Update book");
-    for (var i = 0; i < books["books"].length; i++) {
-        if(books["books"][i].id == id){
-            books["books"][i] = newBook;
+    for (var i = 0; i < books.length; i++) {
+        if(books[i].id == id){
+            books[i] = newBook;
         }
     }
 }
+
 module.exports = {
     addBook: add,
     deleteBook: remove,
