@@ -1,20 +1,9 @@
 
 window.addEventListener('load', (event) => {
     getMyList(); // get my list
-
-    var interval;
-    // update the list while the user is typing
-    document.getElementById('list').onkeypress = function(){
-        interval = setInterval(searchToMyList(), 500); 
-    }
-    document.getElementById('list').onkeyup = function(){
-        interval = setInterval(searchToMyList(), 500); 
-    }
-
-    document.getElementById('list').onkeydown = function(){ 
-        event.preventDefault();  
-        clearInterval(interval);
-    }
+    document.getElementById("list").addEventListener("input", event =>{
+        setTimeout(searchToMyList, 500)}
+    );
 });
 
 
