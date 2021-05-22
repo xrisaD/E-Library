@@ -101,6 +101,10 @@ a:hover {
     padding-top: 3%;
 }
 
+main > h1 {
+    color: #810000;
+}
+
 #search_form, #list_form {
     display: inline-block;
     margin:100px;
@@ -167,10 +171,6 @@ a:hover {
 }
 .search_button:hover, .list_button:hover {
     background-color: #a16101;
-}
-
-main > h1 {
-    color: #810000;
 }
 
 #editForm {
