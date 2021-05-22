@@ -101,13 +101,6 @@ a:hover {
     padding-top: 3%;
 }
 
-.main_search > p, .main_list > p{
-    display: inline;
-    background-color: #810000;
-    padding: 10px;
-    border-radius: 4px;
-}
-
 #search_form, #list_form {
     display: inline-block;
     margin:100px;
