@@ -143,15 +143,14 @@ main > h1 {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 12px;
 }
 
 .search_item > *, .list_item > *{
     flex: auto;
 }
 
-.search_item:first-child, .list_item :first-child{
-    width: 150px;
+.search_item :first-child, .list_item :first-child{
+    max-width: 40%;
 }
 
 .search_info, .list_info{

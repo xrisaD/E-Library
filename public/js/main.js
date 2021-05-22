@@ -12,10 +12,10 @@ var templates = {};
 searchString = "<h3>Search results</h3> \
                 {{#if books}}   \
                     {{#books}}\
-                            <article class='search_item'>  \
+                        <article class='search_item'>  \
                             <h4 > {{title}} </h4>    \
                             <section class='search_info'> \
-                                <p>ID: {{id}} </p> \
+                                <p>ID: {{id}}</p> \
                                 <p>Author: {{author}}</p> \
                             </section> \
                             {{#ifState state 0}}\
@@ -34,13 +34,13 @@ templates.searchResult = Handlebars.compile(searchString);
 listString = "{{#if books}}   \
                     {{#books}}\
                         <article class='list_item'> \
-                            <h4> {{title}} </h4> s   \
+                            <h4> {{title}} </h4>   \
                             <section class='list_info'> \
-                                <p>ID: {{id}} </p> \
+                                <p>ID: {{id}}</p> \
                                 <p>Author: {{author}}</p>\
                                 <p>Description: {{description}}</p>\
                             </section> \
-                            <button class='list_button' id='{{@index}}' onclick=edit({{@index}}) > ✎ </button>\
+                            <button class='list_button' id='{{id}}' onclick=edit({{id}}) > ✎ </button>\
                         </article> \
                     {{/books}} \
                 {{else}}    \

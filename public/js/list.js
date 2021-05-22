@@ -1,18 +1,26 @@
+
 window.addEventListener('load', (event) => {
     getMyList(); // get my list
+
+    var interval;
     // update the list while the user is typing
+    document.getElementById('list').onkeypress = function(){
+        interval = setInterval(searchToMyList(), 500); 
+    }
     document.getElementById('list').onkeyup = function(){
-        setInterval(function(){
-            searchToMyList();
-        }, 500);
+        interval = setInterval(searchToMyList(), 500); 
     }
 
+    document.getElementById('list').onkeydown = function(){ 
+        event.preventDefault();  
+        clearInterval(interval);
+    }
 });
+
 
 function searchToMyList(){
     // get value
     var input = document.getElementById("list").value;
-    let tmpList = {};
     let books = [];
     for (let book of myList["books"]){
         if(book.title.toLowerCase().includes(input.toLowerCase()) || book.description.toLowerCase().includes(input.toLowerCase())){
@@ -25,6 +33,7 @@ function searchToMyList(){
 
 var outer_article;
 var myList = {};
+var tmpList = {};
 
 function getMyList() {
     // delete previous results
@@ -60,9 +69,12 @@ function getAllBooks(outer_article){
     )
 }
 
-function edit(index){
-    // render the page for editing for the book with this id
-    sessionStorage.setItem('id', myList.books[index].id);
+function edit(selectedId){
+    // render the page for editing for the book with the selectedId
+    const result = myList.books.find( ({ id }) => id == selectedId );
+    sessionStorage.setItem('id', result.id);
     window.location.href = "http://localhost:8080/eLib/edit.html";
 }
+
+
 
