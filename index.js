@@ -1,7 +1,6 @@
 const express = require('express');
 const db = require('./DAOmongo');
 const path = require('path');
-const { exists } = require('fs');
 const app = express()
 
 /* 
@@ -30,7 +29,9 @@ app.get('/', function(req, res){
     })
 })
 
-
+/**
+ * Get all books
+ */
 app.get('/books/list', function(req, res){
     db.getAllBooks()
     .then(books=>{
@@ -46,6 +47,9 @@ app.get('/books/list', function(req, res){
     });
 })
 
+/**
+ * Get a book with a specific id
+ */
 app.get('/books', function(req, res){
     let id = req.query.id;
     if(id === undefined){
@@ -74,9 +78,10 @@ app.get('/books', function(req, res){
     }
 
 })
-
+/**
+ * Create a new book
+ */
 app.post('/books', function(req, res){
-    // create a new book
     let obj = req.body;
     let id = obj.id;
     if (id === undefined){
@@ -106,8 +111,10 @@ app.post('/books', function(req, res){
     
 })
 
+/**
+ * Update a book with a specific id
+ */
 app.put('/books/:id', function(req, res){
-    // update a book with a specific id
     // get book's id
     let id = req.params.id;
     let newBook = req.body;
@@ -138,8 +145,10 @@ app.put('/books/:id', function(req, res){
     }
 })
 
+/**
+ * Delete a book with a specific if
+ */
 app.delete('/books/:id', function(req, res){
-    // delete a book with a specific id
     // get book's id
     let id = req.params.id;
     if (id === undefined){
