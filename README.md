@@ -1,6 +1,7 @@
 # E-Library
-Create and manage a list of your favorite books
-
+## Create and manage a list of your favorite books
+***
+Run:
 ```console
 nodemon index.js
 ```
