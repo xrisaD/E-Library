@@ -12,3 +12,8 @@ nodemon index.js
 #### Manage your list:
 
 ![](images/my_list.PNG)
+
+***
+#### Edit your book:
+
+![](images/edit.PNG)
