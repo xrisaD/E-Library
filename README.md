@@ -5,7 +5,7 @@ Create and manage a list of your favorite books
 nodemon index.js
 ```
 ***
-#### Search for a book and ad it to your list:
+#### Search for a book and add it to your list:
 ![](images/search.PNG)
 
 ***
